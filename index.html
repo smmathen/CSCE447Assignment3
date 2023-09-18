@@ -55,11 +55,13 @@
             .attr("width", xScale.bandwidth())
             .attr("height", function (d) { return height - yScale(d); });
 
+        // X Axis Label
         g.append("text")
             .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.top + 20) + ")")
             .style("text-anchor", "middle")
             .text("Letter");
 
+        // Y Axis Label
         g.append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", 0 - margin.left)
@@ -68,12 +70,13 @@
             .style("text-anchor", "middle")
             .text("Relative Frequency %");
 
+        // Title
         svg.append("text")
             .attr("x", (width / 2) + margin.left)
             .attr("y", 30)
             .attr("text-anchor", "middle")
             .style("font-size", "16px")
-            .text('Letters in "Shawn Mathen" and Their Relative Frequencies in the English Alphabet');
+            .text("Letters in 'Shawn Mathen' and Their Relative Frequencies in the English Alphabet");
 
     </script>
 </body>
