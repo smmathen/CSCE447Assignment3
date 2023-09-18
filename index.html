@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+
+<head>
+    <style>
+        .bar {
+            fill: #467cd3;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+<body>
+    <svg width="700" height="500"></svg>
+    <script>
+        var letters = ["S", "H", "A", "W", "N", "M", "T", "E"]
+        var frequencies = [5.7351, 3.0034, 8.4966, 1.2899, 6.6544, 3.0129, 6.9509, 11.1607]
+
+        var svg = d3.select("svg"),
+            margin = { top: 50, right: 30, bottom: 70, left: 100 },
+            width = svg.attr("width") - margin.left - margin.right,
+            height = svg.attr("height") - margin.top - margin.bottom
+
+
+        var xScale = d3.scaleBand().range([0, width]).padding(0.5),
+            yScale = d3.scaleLinear().range([height, 0]);
+
+        var g = svg.append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+        xScale.domain(letters);
+        yScale.domain([0, d3.max(frequencies)]);
+
+        g.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(xScale).tickFormat(function (d) {
+                return d;
+            })
+            );
+
+        g.append("g")
+            .call(d3.axisLeft(yScale).tickFormat(function (d) {
+                return d + "%";
+            }).ticks(4));
+
+
+        g.selectAll(".bar")
+            .data(frequencies)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function (d, i) { return xScale(letters[i]); })
+            .attr("y", function (d) { return yScale(d); })
+            .attr("width", xScale.bandwidth())
+            .attr("height", function (d) { return height - yScale(d); });
+
+        // X Axis Label
+        g.append("text")
+            .attr("transform", "translate(" + (width / 2) + " ," + (height + margin.top + 20) + ")")
+            .style("text-anchor", "middle")
+            .text("Letter");
+
+        // Y Axis Label
+        g.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x", 0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Relative Frequency %");
+
+    </script>
+</body>
+
+</html>
